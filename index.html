@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Form resets -->
+    <link
+      href="https://unpkg.com/@tailwindcss/forms/dist/forms.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <style>
+      h1:empty::before {
+        content: "";
+        display: inline-block;
+      }
+      .fade-out {
+        animation: fadeOut ease 5s forwards;
+      }
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+    <title>Pass the message project</title>
+  </head>
+  <body class="flex justify-center items-center h-screen bg-blue-200">
+    <!-- Container -->
+    <div class="flex flex-col bg-gray-200 justify-center items-center p-5">
+      <h1 class="text-3xl font-bold mb-5">
+        💬 A Message You Would Like To Pass 🗣
+      </h1>
+      <!-- Form -->
+      <form class="flex flex-col items-center w-full">
+        <input type="text" class="form-input px-4 py-3 w-full" />
+        <button
+          type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-3 w-min"
+        >
+          Submit
+        </button>
+      </form>
+      <h1 class="text-2xl">⬇️ Last Message Delivered ⬇️</h1>
+      <!-- Message Delivered -->
+      <h1 class="message text-3xl font-bold text-blue-300 my-3"></h1>
+    </div>
+    <script>
+      const form = document.querySelector("form");
+      const input = document.querySelector("input");
+      const button = document.querySelector("button");
+      const h1Message = document.getElementsByClassName("message")[0];
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = input.value;
+        h1Message.classList.remove("fade-out", "text-red-400");
+        if (text.length > 0) {
+          h1Message.innerText = text;
+          input.value = "";
+        } else {
+          // Trigger a reflow in between removing and adding the class name
+          void h1Message.offsetWidth;
+          h1Message.innerHTML = "Please enter a message";
+          h1Message.classList.add("fade-out", "text-red-400");
+        }
+      });
+    </script>
+  </body>
+</html>
